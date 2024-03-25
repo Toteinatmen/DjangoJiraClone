@@ -10,6 +10,7 @@ urlpatterns = [
     path("job_title/<id>",views.job_title_managing),
     path("project/<id>",views.project_managing),
     path("task/<id>",views.task_managing),
+    path("user_with_task/<id>",views.UserWithTask),
 
     path("all_job_titles", specific_comands.get_all_job_titles),
     path("all_user_task/<user_id>", specific_comands.get_all_user_task),
