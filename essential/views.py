@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 
 from .basic_comands import db_get, db_create, db_update, db_delete
-from .models import User, JobTitle, Project, Task, UserWithTask
-from .serializer import GetTasksSerializer, UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, GetProectsSerializer
+from .models import User, JobTitle, Project, Task
+from .serializer import  UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -17,7 +17,7 @@ def user_managing(request, id):
     elif request.method == 'PUT':
         user = User.objects.get(id=id)
         return db_update(request, UsersSerializer, user)
-
+        
     elif request.method == 'DELETE':
         return db_delete(User, id)
 
@@ -46,7 +46,7 @@ def project_managing(request, id):
 
     if request.method == 'GET':
      
-        return db_get(project,GetProectsSerializer)
+        return db_get(project,ProjectSerializer)
 
     elif request.method == 'POST':
         return db_create(request, ProjectSerializer)
@@ -58,17 +58,17 @@ def project_managing(request, id):
     elif request.method == 'DELETE':
         return db_delete(Project, id)
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def task_managing(request, id):
     task = Task.objects.all().filter(id=id)
 
     if request.method == 'GET':
-        return db_get(task,GetTasksSerializer)
+        return db_get(task,ProjectSerializer)
 
     elif request.method == 'POST':
         return db_create(request, TaskSerializer)
 
-    elif request.method == 'PUT':
+    elif request.method == 'PATCH':
         task = Task.objects.get(id=id)
         return db_update(request, TaskSerializer, task)
 
@@ -77,7 +77,7 @@ def task_managing(request, id):
 
 def getAllUserProjects(request,user_id):
         projects = Project.objects.all().filter(members=user_id)
-        return db_get(projects,GetProectsSerializer)
+        return db_get(projects,ProjectSerializer)
 
 
 
